@@ -2,9 +2,10 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Update `site` to your final domain before deploying.
+// Automatically uses SITE_URL environment variable, or falls back to your current live deployment.
+// When you buy your custom domain, simply update the default URL below.
 export default defineConfig({
-  site: 'https://imagesqueeze.pages.dev',
+  site: process.env.SITE_URL || 'https://imagesqueeze.siyamxe.workers.dev',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
