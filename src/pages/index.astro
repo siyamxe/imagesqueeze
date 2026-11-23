@@ -1,0 +1,551 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageCompressor from '../components/ImageCompressor.astro';
+import FAQ from '../components/FAQ.astro';
+import { faqs } from '../data/faq';
+
+const siteUrl = new URL('/', Astro.site).toString();
+
+const webApplication = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'ImageSqueeze',
+  url: siteUrl,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires JavaScript. Works in modern browsers.',
+  description:
+    'Free browser-based image compressor and converter for PNG, JPG and WebP. Batch compress, resize and convert images without uploading them.',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  featureList: [
+    'Compress PNG, JPG and WebP images',
+    'Convert between image formats',
+    'Batch image processing',
+    'Resize images by maximum width or height',
+    '100% client-side processing with no uploads',
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+const features = [
+  {
+    title: 'Private by design',
+    description:
+      'No uploads, no servers, no storage. Every image is processed locally inside your browser.',
+    icon: 'shield',
+  },
+  {
+    title: 'Batch processing',
+    description:
+      'Drop in dozens of images at once. Compress them all in one pass and download a single ZIP.',
+    icon: 'layers',
+  },
+  {
+    title: 'Format conversion',
+    description:
+      'Convert between PNG, JPG and WebP in any direction while you compress.',
+    icon: 'swap',
+  },
+  {
+    title: 'Smart resizing',
+    description:
+      'Cap the longest side to shrink huge photos for the web, email or social media.',
+    icon: 'resize',
+  },
+  {
+    title: 'Instant results',
+    description:
+      'No queues and no waiting for a server. Modern browsers do the work in seconds.',
+    icon: 'bolt',
+  },
+  {
+    title: 'Free forever',
+    description:
+      'No account, no watermark, no daily limits and no hidden paywall. Just a fast tool.',
+    icon: 'heart',
+  },
+];
+
+const comparison = [
+  { feature: 'Files uploaded to a server', ours: 'Never', theirs: 'Often' },
+  { feature: 'Price', ours: 'Free', theirs: 'Free tier or paid' },
+  { feature: 'Batch compression', ours: 'Included', theirs: 'Often paid' },
+  { feature: 'PNG, JPG and WebP conversion', ours: 'Yes', theirs: 'Varies' },
+  { feature: 'Sign-up required', ours: 'No', theirs: 'Sometimes' },
+  { feature: 'Watermarks', ours: 'Never', theirs: 'Sometimes' },
+  { feature: 'Daily limits', ours: 'None', theirs: 'Often' },
+];
+---
+
+<BaseLayout
+  title="ImageSqueeze — Free Image Compressor & Converter (PNG, JPG, WebP)"
+  description="Compress and convert PNG, JPG and WebP images for free, right in your browser. Batch processing, no uploads, no sign-up and no limits."
+  structuredData={[webApplication, faqSchema]}
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+      <div
+        class="absolute left-1/2 top-0 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10"
+      >
+      </div>
+      <div
+        class="absolute -right-24 top-40 h-72 w-72 rounded-full bg-teal-300/20 blur-3xl dark:bg-teal-500/10"
+      >
+      </div>
+    </div>
+
+    <div
+      class="mx-auto max-w-6xl px-4 pb-10 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8"
+    >
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-3.5 w-3.5"
+          aria-hidden="true"
+        >
+          <path
+            d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"
+          ></path>
+        </svg>
+        Free forever · No sign-up · No uploads
+      </span>
+
+      <h1
+        class="mx-auto mt-6 max-w-3xl text-balance text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white"
+      >
+        Free image compressor &amp; converter
+        <span class="text-emerald-600 dark:text-emerald-400"
+          >right in your browser</span
+        >
+      </h1>
+
+      <p
+        class="mx-auto mt-5 max-w-2xl text-balance text-lg leading-relaxed text-slate-600 dark:text-slate-300"
+      >
+        Shrink PNG, JPG and WebP files without uploading them anywhere. Batch
+        compress, convert formats and resize images — private, instant and
+        completely free.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="#compressor"
+          class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-emerald-600/25 transition hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+        >
+          Start compressing
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+        <a
+          href="#how-it-works"
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-950"
+        >
+          See how it works
+        </a>
+      </div>
+
+      <ul
+        class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-400"
+      >
+        <li class="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 text-emerald-500"
+            aria-hidden="true"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          100% client-side
+        </li>
+        <li class="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 text-emerald-500"
+            aria-hidden="true"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          Batch processing
+        </li>
+        <li class="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 text-emerald-500"
+            aria-hidden="true"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          No watermarks
+        </li>
+        <li class="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 text-emerald-500"
+            aria-hidden="true"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          No limits
+        </li>
+      </ul>
+
+      <!-- Illustrative result card -->
+      <div
+        class="mx-auto mt-10 max-w-md animate-fade-up rounded-2xl border border-slate-200 bg-white/90 p-4 text-left shadow-lg shadow-slate-900/5 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-black/20"
+        aria-hidden="true"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="h-12 w-12 shrink-0 rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500"
+          >
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-semibold text-slate-900 dark:text-white">
+              beach-sunset.jpg
+            </p>
+            <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+              4.2 MB <span class="text-slate-400">→</span>
+              <span class="font-semibold text-emerald-600 dark:text-emerald-400"
+                >780 KB</span
+              >
+            </p>
+          </div>
+          <span
+            class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+            >−81%</span
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool -->
+  <ImageCompressor />
+
+  <!-- How it works -->
+  <section
+    id="how-it-works"
+    class="scroll-mt-24 border-t border-slate-200 bg-slate-50/70 py-16 sm:py-24 dark:border-slate-800 dark:bg-slate-950/40"
+  >
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p
+          class="text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400"
+        >
+          How it works
+        </p>
+        <h2
+          class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+        >
+          Smaller images in three steps
+        </h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          No account, no installation and no waiting for an upload. It all
+          happens on your device.
+        </p>
+      </div>
+
+      <ol class="mt-12 grid gap-6 md:grid-cols-3">
+        <li
+          class="relative rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/60"
+        >
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-sm font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+            >1</span
+          >
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+            Add your images
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Drag and drop your PNG, JPG or WebP files — or browse for them. You
+            can add as many as you like.
+          </p>
+        </li>
+        <li
+          class="relative rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/60"
+        >
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-sm font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+            >2</span
+          >
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+            Pick your settings
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Choose a quality level, an output format and, if you want, a maximum
+            width or height to resize.
+          </p>
+        </li>
+        <li
+          class="relative rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/60"
+        >
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-sm font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+            >3</span
+          >
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+            Compress &amp; download
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Hit compress, compare the before-and-after sizes, then download each
+            file or all of them as a ZIP.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="scroll-mt-24 py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p
+          class="text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400"
+        >
+          Features
+        </p>
+        <h2
+          class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+        >
+          Everything you need to shrink images
+        </h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          A focused tool that does one job well — without asking for your email
+          or uploading your files.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/5 dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-emerald-500/40">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+                {feature.icon === 'shield' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z" />
+                  </svg>
+                )}
+                {feature.icon === 'layers' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
+                    <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
+                    <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
+                  </svg>
+                )}
+                {feature.icon === 'swap' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="m16 3 4 4-4 4" />
+                    <path d="M20 7H4" />
+                    <path d="m8 21-4-4 4-4" />
+                    <path d="M4 17h16" />
+                  </svg>
+                )}
+                {feature.icon === 'resize' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="M21 3 9 15" />
+                    <path d="M21 9V3h-6" />
+                    <path d="m3 21 12-12" />
+                    <path d="M3 15v6h6" />
+                  </svg>
+                )}
+                {feature.icon === 'bolt' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14Z" />
+                  </svg>
+                )}
+                {feature.icon === 'heart' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                  </svg>
+                )}
+              </div>
+              <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+                {feature.title}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {feature.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section
+    class="border-t border-slate-200 bg-slate-50/70 py-16 sm:py-24 dark:border-slate-800 dark:bg-slate-950/40"
+  >
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p
+          class="text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400"
+        >
+          Why ImageSqueeze
+        </p>
+        <h2
+          class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+        >
+          A more private way to compress images
+        </h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          Most online compressors upload your files to a server. ImageSqueeze
+          never does.
+        </p>
+      </div>
+
+      <div
+        class="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/60"
+      >
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-900">
+            <tr>
+              <th scope="col" class="px-4 py-4 font-semibold text-slate-900 sm:px-6 dark:text-white">
+                Feature
+              </th>
+              <th scope="col" class="px-4 py-4 text-center font-semibold text-emerald-700 sm:px-6 dark:text-emerald-400">
+                ImageSqueeze
+              </th>
+              <th scope="col" class="px-4 py-4 text-center font-semibold text-slate-500 sm:px-6 dark:text-slate-400">
+                Typical tools
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {
+              comparison.map((row) => (
+                <tr>
+                  <th scope="row" class="px-4 py-3.5 text-left font-medium text-slate-700 sm:px-6 dark:text-slate-300">
+                    {row.feature}
+                  </th>
+                  <td class="px-4 py-3.5 text-center sm:px-6">
+                    <span class="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true">
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      {row.ours}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3.5 text-center text-slate-500 sm:px-6 dark:text-slate-400">
+                    {row.theirs}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQ items={faqs} />
+
+  <!-- CTA -->
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div
+        class="relative overflow-hidden rounded-3xl bg-emerald-600 px-6 py-12 text-center shadow-xl shadow-emerald-600/20 sm:px-12"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl"
+        >
+        </div>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-teal-300/20 blur-2xl"
+        >
+        </div>
+        <h2 class="relative text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          Ready to squeeze your images?
+        </h2>
+        <p class="relative mx-auto mt-4 max-w-xl text-emerald-50">
+          Free, private and fast. No sign-up, no uploads and no limits — just
+          smaller files.
+        </p>
+        <a
+          href="#compressor"
+          class="relative mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-emerald-700 shadow-sm transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-600"
+        >
+          Compress images now
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

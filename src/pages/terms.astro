@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const effectiveDate = 'November 23, 2026';
+---
+
+<BaseLayout
+  title="Terms of Use — ImageSqueeze"
+  description="The terms of use for ImageSqueeze, the free browser-based image compressor and converter."
+>
+  <PageHero
+    eyebrow="Legal"
+    title="Terms of Use"
+    description={`Effective date: ${effectiveDate}. Please read these terms before using ImageSqueeze.`}
+  />
+
+  <section class="py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div class="legal-prose">
+        <h2 class="!mt-0">Acceptance</h2>
+        <p>
+          By using ImageSqueeze, you agree to these terms. If you do not agree,
+          please do not use the Site.
+        </p>
+
+        <h2>The service</h2>
+        <p>
+          ImageSqueeze is a free, browser-based tool for compressing and
+          converting images. It is provided for personal and commercial use. The
+          tool runs on your device; we do not store your files.
+        </p>
+
+        <h2>Acceptable use</h2>
+        <p>You agree not to:</p>
+        <ul>
+          <li>use the Site for unlawful purposes;</li>
+          <li>attempt to disrupt or overload the Site;</li>
+          <li>process content you do not have the right to use;</li>
+          <li>misrepresent the Site or its results.</li>
+        </ul>
+
+        <h2>Intellectual property</h2>
+        <p>
+          The Site’s design, code and branding are owned by ImageSqueeze unless
+          otherwise stated. You retain all rights to the images you process. We
+          claim no ownership over your files.
+        </p>
+
+        <h2>No warranty</h2>
+        <p>
+          The Site is provided “as is” and “as available”, without warranties of
+          any kind, express or implied, including fitness for a particular
+          purpose. Compression results vary by image and settings.
+        </p>
+
+        <h2>Limitation of liability</h2>
+        <p>
+          To the maximum extent permitted by law, ImageSqueeze is not liable for
+          any indirect, incidental or consequential damages arising from your
+          use of the Site, including lost data or profits.
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          We may modify or discontinue the Site, or update these terms, at any
+          time. Updated terms take effect when posted.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions about these terms? Email
+          <a href="mailto:hello@imagesqueeze.com">hello@imagesqueeze.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

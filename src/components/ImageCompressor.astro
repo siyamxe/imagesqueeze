@@ -1,0 +1,925 @@
+---
+// The interactive image compressor. All processing happens in the browser.
+---
+
+<section id="compressor" class="relative scroll-mt-24 pb-16 sm:pb-24">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <div
+      class="rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-900/5 sm:p-6 lg:p-8 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
+    >
+      <!-- Drop zone -->
+      <div
+        id="drop-zone"
+        role="button"
+        tabindex="0"
+        aria-label="Upload images to compress"
+        class="group relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/70 px-6 py-12 text-center transition hover:border-emerald-400 hover:bg-emerald-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-950/40 dark:hover:border-emerald-500 dark:hover:bg-emerald-950/20 dark:focus-visible:ring-offset-slate-900"
+      >
+        <input
+          id="file-input"
+          type="file"
+          class="sr-only"
+          accept="image/png,image/jpeg,image/webp,image/gif,image/bmp"
+          multiple
+        />
+        <div
+          class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 transition group-hover:scale-105 dark:bg-emerald-500/10 dark:text-emerald-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-7 w-7"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m17 8-5-5-5 5"></path>
+            <path d="M12 3v12"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-lg font-semibold text-slate-900 dark:text-white">
+            Drop your images here or
+            <span
+              class="text-emerald-600 underline decoration-emerald-300 underline-offset-4 dark:text-emerald-400"
+              >browse</span
+            >
+          </p>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            PNG, JPG, WebP, GIF or BMP · up to 25 MB each · batch supported
+          </p>
+        </div>
+        <p
+          class="flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4"
+            aria-hidden="true"
+          >
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          100% private — images never leave your device
+        </p>
+      </div>
+
+      <!-- Options -->
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Mode selector -->
+        <div class="lg:col-span-2">
+          <label class="text-sm font-medium text-slate-700 dark:text-slate-300">
+            Compression mode
+          </label>
+          <div class="mt-3 flex gap-2" role="radiogroup" aria-label="Compression mode">
+            <label class="flex-1 cursor-pointer">
+              <input
+                type="radio"
+                name="comp-mode"
+                value="quality"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                id="mode-quality"
+                class="relative flex items-center justify-center gap-2 rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:text-emerald-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:peer-checked:border-emerald-500 dark:peer-checked:bg-emerald-500/10 dark:peer-checked:text-emerald-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 16v-4"></path>
+                  <path d="M12 8h.01"></path>
+                </svg>
+                Quality
+              </div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input
+                type="radio"
+                name="comp-mode"
+                value="target-size"
+                class="sr-only peer"
+              />
+              <div
+                id="mode-target"
+                class="relative flex items-center justify-center gap-2 rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:text-emerald-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:peer-checked:border-emerald-500 dark:peer-checked:bg-emerald-500/10 dark:peer-checked:text-emerald-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M3 3h18v18H3Z"></path>
+                  <path d="m16 8-4 4 4-4"></path>
+                  <path d="M12 2v20"></path>
+                  <path d="M2 12h20"></path>
+                </svg>
+                Target size
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Format -->
+        <div>
+          <label
+            for="format"
+            class="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >Output format</label
+          >
+          <select
+            id="format"
+            class="mt-3 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+          >
+            <option value="webp">WebP (smallest, best for web)</option>
+            <option value="jpeg">JPG (widely compatible)</option>
+            <option value="png">PNG (lossless, larger)</option>
+            <option value="auto">Keep original</option>
+          </select>
+        </div>
+
+        <!-- Max dimensions -->
+        <div>
+          <label
+            for="max-width"
+            class="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >Max width / height
+            <span class="font-normal text-slate-400">(optional)</span></label
+          >
+          <div class="relative mt-3">
+            <input
+              id="max-width"
+              type="number"
+              min="16"
+              max="10000"
+              step="1"
+              inputmode="numeric"
+              placeholder="e.g. 1920"
+              class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+            />
+            <span
+              class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-slate-400"
+              >px</span
+            >
+          </div>
+        </div>
+
+        <!-- Quality panel -->
+        <div id="panel-quality" class="lg:col-span-4">
+          <label
+            for="quality"
+            class="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
+            <span>Quality</span>
+            <span
+              id="quality-value"
+              class="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              >70%</span
+            >
+          </label>
+          <input
+            id="quality"
+            type="range"
+            min="10"
+            max="95"
+            step="5"
+            value="70"
+            class="mt-3 w-full accent-emerald-500"
+          />
+          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+            Lower = smaller files. 70% is a good balance for most photos.
+            <br />
+            <strong class="text-slate-700 dark:text-slate-300"
+              >PNG is lossless — switch to WebP or JPG for real savings.</strong
+            >
+          </p>
+        </div>
+
+        <!-- Target size panel -->
+        <div id="panel-target" class="hidden lg:col-span-4">
+          <label
+            for="target-size"
+            class="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
+            <span>Target file size per image</span>
+            <span
+              id="target-size-value"
+              class="rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+              >500 KB</span
+            >
+          </label>
+          <input
+            id="target-size"
+            type="range"
+            min="50"
+            max="10000"
+            step="50"
+            value="500"
+            class="mt-3 w-full accent-emerald-500"
+          />
+          <div class="mt-2 flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+              >Web: 100–500 KB</span
+            >
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400"
+              >Email: 500 KB – 2 MB</span
+            >
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+              >Print: 2 MB+</span
+            >
+          </div>
+          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+            The compressor will automatically find the best quality to hit this
+            target. Works best with <strong class="text-slate-700 dark:text-slate-300"
+              >WebP or JPG output</strong
+            >.
+          </p>
+        </div>
+      </div>
+
+      <p
+        class="mt-4 flex items-start gap-2 rounded-xl bg-emerald-50/70 px-3 py-2.5 text-xs leading-relaxed text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+        <span
+          ><strong class="font-semibold text-emerald-900 dark:text-emerald-200"
+            >Pro tip:</strong
+          >
+          For PNG screenshots/illustrations, choose <strong
+            class="text-emerald-900 dark:text-emerald-200"
+            >WebP output</strong
+          >
+          and <strong class="text-emerald-900 dark:text-emerald-200"
+            >Target size ~500 KB</strong
+          > — you&apos;ll often get 70–90% reduction with no visible quality
+          loss.</span
+        >
+      </p>
+
+      <!-- Actions -->
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <button
+          id="compress-button"
+          type="button"
+          disabled
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-emerald-600/25 transition hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:focus-visible:ring-offset-slate-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-5 w-5"
+            aria-hidden="true"
+          >
+            <path
+              d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"
+            ></path>
+          </svg>
+          Compress images
+        </button>
+        <button
+          id="clear-button"
+          type="button"
+          disabled
+          class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-900"
+        >
+          Clear all
+        </button>
+        <button
+          id="download-all"
+          type="button"
+          class="hidden items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 dark:focus-visible:ring-offset-slate-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-5 w-5"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M12 15V3"></path>
+          </svg>
+          Download all (.zip)
+        </button>
+        <p
+          id="status"
+          class="text-sm text-slate-500 sm:ml-auto dark:text-slate-400"
+          role="status"
+          aria-live="polite"
+        >
+        </p>
+      </div>
+
+      <!-- Summary -->
+      <div
+        id="summary"
+        class="mt-6 hidden rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-500/20 dark:bg-emerald-500/5"
+      >
+        <dl class="grid grid-cols-3 gap-3 text-center">
+          <div>
+            <dt
+              class="text-[11px] font-semibold uppercase tracking-wide text-emerald-700/70 dark:text-emerald-300/70"
+            >
+              Original
+            </dt>
+            <dd
+              id="total-original"
+              class="mt-1 text-lg font-bold text-slate-900 dark:text-white"
+            >
+              —
+            </dd>
+          </div>
+          <div>
+            <dt
+              class="text-[11px] font-semibold uppercase tracking-wide text-emerald-700/70 dark:text-emerald-300/70"
+            >
+              Compressed
+            </dt>
+            <dd
+              id="total-output"
+              class="mt-1 text-lg font-bold text-slate-900 dark:text-white"
+            >
+              —
+            </dd>
+          </div>
+          <div>
+            <dt
+              class="text-[11px] font-semibold uppercase tracking-wide text-emerald-700/70 dark:text-emerald-300/70"
+            >
+              Saved
+            </dt>
+            <dd
+              id="total-saved"
+              class="mt-1 text-lg font-bold text-emerald-600 dark:text-emerald-400"
+            >
+              —
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- File list -->
+      <ul id="file-list" class="mt-6 space-y-3"></ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import imageCompression from 'browser-image-compression';
+  import JSZip from 'jszip';
+
+  const MAX_BYTES = 25 * 1024 * 1024;
+
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const qualityInput = document.getElementById('quality');
+  const qualityValue = document.getElementById('quality-value');
+  const formatInput = document.getElementById('format');
+  const maxWidthInput = document.getElementById('max-width');
+  const compressButton = document.getElementById('compress-button');
+  const clearButton = document.getElementById('clear-button');
+  const downloadAllButton = document.getElementById('download-all');
+  const fileList = document.getElementById('file-list');
+  const summary = document.getElementById('summary');
+  const totalOriginal = document.getElementById('total-original');
+  const totalOutput = document.getElementById('total-output');
+  const totalSaved = document.getElementById('total-saved');
+  const statusEl = document.getElementById('status');
+
+  // Mode panels
+  const modeQualityRadio = document.querySelector('input[name="comp-mode"][value="quality"]');
+  const modeTargetRadio = document.querySelector('input[name="comp-mode"][value="target-size"]');
+  const panelQuality = document.getElementById('panel-quality');
+  const panelTarget = document.getElementById('panel-target');
+  const targetSizeInput = document.getElementById('target-size');
+  const targetSizeValue = document.getElementById('target-size-value');
+
+  const compressButtonLabel = compressButton ? compressButton.innerHTML : '';
+
+  let items = [];
+  let nextId = 1;
+  let busy = false;
+
+  function formatBytes(bytes) {
+    if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    const index = Math.min(
+      Math.floor(Math.log(bytes) / Math.log(1024)),
+      units.length - 1
+    );
+    const value = bytes / Math.pow(1024, index);
+    return `${value >= 10 || index === 0 ? Math.round(value) : value.toFixed(1)} ${units[index]}`;
+  }
+
+  function extensionForType(type) {
+    switch (type) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      case 'image/webp':
+        return 'webp';
+      case 'image/gif':
+        return 'gif';
+      case 'image/bmp':
+        return 'bmp';
+      default:
+        return 'img';
+    }
+  }
+
+  function baseName(name) {
+    return name.replace(/\.[^/.]+$/, '');
+  }
+
+  function selectedType(item) {
+    const format = formatInput ? formatInput.value : 'auto';
+    if (format !== 'auto') return `image/${format}`;
+    return item.file.type || 'image/jpeg';
+  }
+
+  function outputName(item) {
+    const type = item.outputBlob?.type || selectedType(item);
+    return `${baseName(item.name)}-squeezed.${extensionForType(type)}`;
+  }
+
+  function setStatus(message, tone = '') {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    const base = 'text-sm sm:ml-auto ';
+    const toneClass =
+      tone === 'success'
+        ? 'text-emerald-600 dark:text-emerald-400'
+        : tone === 'error'
+          ? 'text-rose-600 dark:text-rose-400'
+          : tone === 'warn'
+            ? 'text-amber-600 dark:text-amber-400'
+            : 'text-slate-500 dark:text-slate-400';
+    statusEl.className = base + toneClass;
+  }
+
+  function updateButtons() {
+    if (compressButton) compressButton.disabled = busy || items.length === 0;
+    if (clearButton) clearButton.disabled = busy || items.length === 0;
+  }
+
+  function updateSummary() {
+    if (!summary || !totalOriginal || !totalOutput || !totalSaved) return;
+    const done = items.filter(
+      (item) => item.status === 'done' && item.outputSize > 0
+    );
+
+    if (done.length === 0) {
+      summary.classList.add('hidden');
+      if (downloadAllButton) downloadAllButton.classList.add('hidden');
+      return;
+    }
+
+    const original = done.reduce((sum, item) => sum + item.originalSize, 0);
+    const compressed = done.reduce((sum, item) => sum + item.outputSize, 0);
+    const saved =
+      original > 0 ? Math.round((1 - compressed / original) * 100) : 0;
+
+    totalOriginal.textContent = formatBytes(original);
+    totalOutput.textContent = formatBytes(compressed);
+    totalSaved.textContent =
+      saved > 0 ? `−${saved}%` : saved < 0 ? `+${Math.abs(saved)}%` : '0%';
+
+    summary.classList.remove('hidden');
+    if (downloadAllButton) {
+      downloadAllButton.classList.remove('hidden');
+      downloadAllButton.classList.add('inline-flex');
+    }
+  }
+
+  function showPanel(mode) {
+    const isQuality = mode === 'quality';
+    if (panelQuality) panelQuality.classList.toggle('hidden', !isQuality);
+    if (panelTarget) panelTarget.classList.toggle('hidden', isQuality);
+    if (modeQualityRadio) modeQualityRadio.checked = isQuality;
+    if (modeTargetRadio) modeTargetRadio.checked = !isQuality;
+  }
+
+  function render() {
+    if (!fileList) return;
+    fileList.innerHTML = '';
+
+    for (const item of items) {
+      const row = document.createElement('li');
+      row.className =
+        'flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-950/50';
+
+      const thumb = document.createElement('img');
+      thumb.src = item.thumbUrl;
+      thumb.alt = '';
+      thumb.loading = 'lazy';
+      thumb.className =
+        'h-14 w-14 shrink-0 rounded-xl object-cover ring-1 ring-slate-200 dark:ring-slate-700';
+
+      const info = document.createElement('div');
+      info.className = 'min-w-0 flex-1';
+
+      const name = document.createElement('p');
+      name.className =
+        'truncate text-sm font-semibold text-slate-900 dark:text-white';
+      name.textContent = item.name;
+
+      const meta = document.createElement('p');
+      meta.className =
+        'mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 dark:text-slate-400';
+
+      const originalSize = document.createElement('span');
+      originalSize.textContent = formatBytes(item.originalSize);
+      meta.append(originalSize);
+
+      if (item.status === 'done' && item.outputSize > 0) {
+        meta.append(document.createTextNode('→'));
+
+        const newSize = document.createElement('span');
+        newSize.className =
+          'font-semibold text-emerald-600 dark:text-emerald-400';
+        newSize.textContent = formatBytes(item.outputSize);
+        meta.append(newSize);
+
+        const delta = Math.round(
+          (1 - item.outputSize / item.originalSize) * 100
+        );
+        const badge = document.createElement('span');
+        if (delta > 0) {
+          badge.className =
+            'rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400';
+          badge.textContent = `−${delta}%`;
+        } else if (delta < 0) {
+          badge.className =
+            'rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-500/10 dark:text-amber-400';
+          badge.textContent = `+${Math.abs(delta)}% larger`;
+        } else {
+          badge.className =
+            'rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300';
+          badge.textContent = 'same size';
+        }
+        meta.append(badge);
+      } else if (item.status === 'processing') {
+        const processing = document.createElement('span');
+        processing.className = 'text-emerald-600 dark:text-emerald-400';
+        processing.textContent = 'Compressing…';
+        meta.append(processing);
+      } else if (item.status === 'error') {
+        const error = document.createElement('span');
+        error.className = 'text-rose-600 dark:text-rose-400';
+        error.textContent = item.error || 'Failed';
+        meta.append(error);
+      } else {
+        const pending = document.createElement('span');
+        pending.textContent = 'Ready';
+        meta.append(pending);
+      }
+
+      info.append(name, meta);
+
+      const actions = document.createElement('div');
+      actions.className = 'flex shrink-0 items-center gap-1';
+
+      if (item.status === 'done' && item.outputUrl) {
+        const download = document.createElement('a');
+        download.href = item.outputUrl;
+        download.download = outputName(item);
+        download.className =
+          'rounded-lg px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-500/10';
+        download.textContent = 'Download';
+        actions.append(download);
+      }
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className =
+        'inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200';
+      remove.setAttribute('aria-label', `Remove ${item.name}`);
+      remove.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-4 w-4" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+      remove.addEventListener('click', () => removeItem(item.id));
+      actions.append(remove);
+
+      row.append(thumb, info, actions);
+      fileList.append(row);
+    }
+
+    updateButtons();
+    updateSummary();
+  }
+
+  function addFiles(fileListLike) {
+    const incoming = Array.from(fileListLike || []);
+    if (incoming.length === 0) return;
+
+    const images = incoming.filter((file) => file.type.startsWith('image/'));
+    const nonImages = incoming.length - images.length;
+    let skipped = 0;
+    let duplicates = 0;
+
+    for (const file of images) {
+      if (file.size > MAX_BYTES) {
+        skipped += 1;
+        continue;
+      }
+
+      const key = `${file.name}-${file.size}-${file.lastModified}`;
+      if (items.some((item) => item.key === key)) {
+        duplicates += 1;
+        continue;
+      }
+
+      items.push({
+        id: nextId++,
+        key,
+        file,
+        name: file.name,
+        originalSize: file.size,
+        status: 'pending',
+        outputBlob: null,
+        outputUrl: null,
+        outputSize: 0,
+        thumbUrl: URL.createObjectURL(file),
+        error: null,
+      });
+    }
+
+    const messages = [];
+    if (nonImages > 0) messages.push(`${nonImages} non-image file(s) ignored`);
+    if (skipped > 0) messages.push(`${skipped} file(s) over 25 MB skipped`);
+    if (duplicates > 0) messages.push(`${duplicates} duplicate(s) skipped`);
+
+    setStatus(messages.length ? `${messages.join(' · ')}.` : '', messages.length ? 'warn' : '');
+    render();
+  }
+
+  function removeItem(id) {
+    const index = items.findIndex((item) => item.id === id);
+    if (index === -1) return;
+
+    const [item] = items.splice(index, 1);
+    if (item.outputUrl) URL.revokeObjectURL(item.outputUrl);
+    if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+    render();
+  }
+
+  function clearAll() {
+    for (const item of items) {
+      if (item.outputUrl) URL.revokeObjectURL(item.outputUrl);
+      if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+    }
+    items = [];
+    setStatus('');
+    render();
+  }
+
+  function setBusy(value) {
+    busy = value;
+    updateButtons();
+
+    [qualityInput, formatInput, maxWidthInput, targetSizeInput].forEach((input) => {
+      if (input) input.disabled = value;
+    });
+
+    if (!compressButton) return;
+    compressButton.setAttribute('aria-busy', String(value));
+
+    if (value) {
+      compressButton.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-5 w-5 animate-spin" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Compressing…';
+    } else {
+      compressButton.innerHTML = compressButtonLabel;
+    }
+  }
+
+  async function compressAll() {
+    if (busy || items.length === 0) return;
+
+    setBusy(true);
+    setStatus('Starting…', 'info');
+
+    const useTargetSize = modeTargetRadio?.checked === true;
+    const quality = useTargetSize
+      ? 0.9 // start high, library will iterate down
+      : Math.min(1, Math.max(0.1, Number(qualityInput?.value || 70) / 100));
+    const targetSizeKB = useTargetSize ? Number(targetSizeInput?.value || 500) : null;
+    const format = formatInput?.value || 'auto';
+    const maxWidth = Number(maxWidthInput?.value) || undefined;
+
+    let processed = 0;
+
+    for (const item of items) {
+      item.status = 'processing';
+      item.error = null;
+      render();
+
+      setStatus(
+        `Compressing ${processed + 1} of ${items.length}: ${item.name}`,
+        'info'
+      );
+
+      try {
+        const options = {
+          maxSizeMB: targetSizeKB ? targetSizeKB / 1024 : 10, // sensible ceiling; library iterates to hit target
+          maxWidthOrHeight: maxWidth,
+          useWebWorker: true,
+          initialQuality: quality,
+          alwaysKeepResolution: !maxWidth,
+        };
+
+        if (format !== 'auto') {
+          options.fileType = `image/${format}`;
+        }
+
+        // If target size mode, use the library's built-in iteration
+        if (targetSizeKB) {
+          // The library will iterate quality to try to hit maxSizeMB
+          // We pass target as maxSizeMB (in MB)
+          options.maxSizeMB = targetSizeKB / 1024;
+        }
+
+        const output = await imageCompression(item.file, options);
+
+        if (item.outputUrl) URL.revokeObjectURL(item.outputUrl);
+        item.outputBlob = output;
+        item.outputUrl = URL.createObjectURL(output);
+        item.outputSize = output.size;
+        item.status = 'done';
+      } catch (error) {
+        console.error('Compression failed:', error);
+        item.status = 'error';
+        item.error = 'Could not compress this image';
+      }
+
+      processed += 1;
+      render();
+    }
+
+    setBusy(false);
+
+    const failed = items.filter((item) => item.status === 'error').length;
+    if (failed > 0) {
+      setStatus(
+        `Finished — ${items.length - failed} compressed, ${failed} failed.`,
+        'error'
+      );
+    } else {
+      setStatus('Done! Your compressed images are ready.', 'success');
+    }
+
+    render();
+  }
+
+  async function downloadAll() {
+    const done = items.filter(
+      (item) => item.status === 'done' && item.outputBlob
+    );
+    if (done.length === 0 || !downloadAllButton) return;
+
+    downloadAllButton.disabled = true;
+    setStatus('Preparing ZIP…', 'info');
+
+    try {
+      const zip = new JSZip();
+      const usedNames = new Set();
+
+      for (const item of done) {
+        let name = outputName(item);
+        if (usedNames.has(name)) {
+          name = `${baseName(item.name)}-${item.id}.${extensionForType(
+            item.outputBlob.type
+          )}`;
+        }
+        usedNames.add(name);
+        zip.file(name, item.outputBlob);
+      }
+
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'imagesqueeze-images.zip';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setStatus('ZIP downloaded.', 'success');
+    } catch (error) {
+      console.error('ZIP creation failed:', error);
+      setStatus('Could not create the ZIP file.', 'error');
+    } finally {
+      downloadAllButton.disabled = false;
+    }
+  }
+
+  // Wire up the UI
+  dropZone?.addEventListener('click', () => fileInput?.click());
+
+  dropZone?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      fileInput?.click();
+    }
+  });
+
+  fileInput?.addEventListener('change', () => {
+    if (fileInput.files) addFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  const dragHighlight = [
+    'border-emerald-500',
+    'bg-emerald-50/70',
+    'dark:bg-emerald-950/30',
+  ];
+
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      dropZone.classList.add(...dragHighlight);
+    });
+  });
+
+  ['dragleave', 'drop'].forEach((eventName) => {
+    dropZone?.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      dropZone.classList.remove(...dragHighlight);
+    });
+  });
+
+  dropZone?.addEventListener('drop', (event) => {
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) addFiles(files);
+  });
+
+  qualityInput?.addEventListener('input', () => {
+    if (qualityValue) qualityValue.textContent = `${qualityInput.value}%`;
+  });
+
+  targetSizeInput?.addEventListener('input', () => {
+    if (targetSizeValue) targetSizeValue.textContent = `${targetSizeInput.value} KB`;
+  });
+
+  modeQualityRadio?.addEventListener('change', () => {
+    if (modeQualityRadio.checked) showPanel('quality');
+  });
+  modeTargetRadio?.addEventListener('change', () => {
+    if (modeTargetRadio.checked) showPanel('target-size');
+  });
+
+  compressButton?.addEventListener('click', compressAll);
+  clearButton?.addEventListener('click', clearAll);
+  downloadAllButton?.addEventListener('click', downloadAll);
+</script>

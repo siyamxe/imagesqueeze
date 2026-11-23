@@ -1,0 +1,127 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const nav = [
+  { href: '/#compressor', label: 'Compressor' },
+  { href: '/#features', label: 'Features' },
+  { href: '/#faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-lg dark:border-slate-800/80 dark:bg-slate-950/80"
+>
+  <div
+    class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
+  >
+    <a
+      href="/"
+      class="flex items-center gap-2.5 font-semibold tracking-tight text-slate-900 dark:text-white"
+      aria-label="ImageSqueeze home"
+    >
+      <span
+        class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-sm shadow-emerald-500/30"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+          aria-hidden="true"
+        >
+          <path d="M4 7V5a1 1 0 0 1 1-1h2"></path>
+          <path d="M17 4h2a1 1 0 0 1 1 1v2"></path>
+          <path d="M20 17v2a1 1 0 0 1-1 1h-2"></path>
+          <path d="M7 20H5a1 1 0 0 1-1-1v-2"></path>
+          <path d="M8 12h8"></path>
+          <path d="m10 9-3 3 3 3"></path>
+          <path d="m14 9 3 3-3 3"></path>
+        </svg>
+      </span>
+      <span class="text-lg">
+        Image<span class="text-emerald-600 dark:text-emerald-400">Squeeze</span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Main navigation">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <button
+        id="menu-button"
+        type="button"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 md:hidden dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+        aria-label="Open menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          class="h-5 w-5"
+          aria-hidden="true"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-slate-200 bg-white px-4 pb-4 pt-2 md:hidden dark:border-slate-800 dark:bg-slate-950"
+  >
+    <nav class="flex flex-col" aria-label="Mobile navigation">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.getElementById('menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuButton?.addEventListener('click', () => {
+    if (!mobileMenu) return;
+    const isOpen = mobileMenu.classList.toggle('hidden') === false;
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      menuButton?.setAttribute('aria-label', 'Open menu');
+    });
+  });
+</script>

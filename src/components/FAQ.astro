@@ -1,0 +1,64 @@
+---
+import type { FaqItem } from '../data/faq';
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section id="faq" class="scroll-mt-24 border-t border-slate-200 bg-slate-50/70 py-16 sm:py-24 dark:border-slate-800 dark:bg-slate-950/40">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <p class="text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+        FAQ
+      </p>
+      <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        Frequently asked questions
+      </h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-300">
+        Everything you need to know about compressing and converting images
+        with ImageSqueeze.
+      </p>
+    </div>
+
+    <div class="mt-10 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-5 sm:px-6 dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900/60">
+      {
+        items.map((item) => (
+          <details class="group py-4">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left font-semibold text-slate-900 [&::-webkit-details-marker]:hidden dark:text-white">
+              <span>{item.question}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5 shrink-0 text-emerald-600 transition-transform duration-200 group-open:rotate-45 dark:text-emerald-400"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path>
+              </svg>
+            </summary>
+            <p class="mt-3 pr-9 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              {item.answer}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
+      Still have a question?{' '}
+      <a
+        href="/contact"
+        class="font-semibold text-emerald-600 underline decoration-emerald-300 underline-offset-4 transition hover:text-emerald-500 dark:text-emerald-400"
+        >Get in touch</a
+      >.
+    </p>
+  </div>
+</section>

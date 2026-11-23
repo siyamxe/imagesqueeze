@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const effectiveDate = 'November 23, 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy — ImageSqueeze"
+  description="ImageSqueeze's privacy policy. Your images are processed entirely in your browser and are never uploaded, stored or shared."
+>
+  <PageHero
+    eyebrow="Legal"
+    title="Privacy Policy"
+    description={`Effective date: ${effectiveDate}. The short version: your images never leave your device.`}
+  />
+
+  <section class="py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div class="legal-prose">
+        <p class="!mt-0">
+          ImageSqueeze (“we”, “us”, “our”) operates this website (the “Site”).
+          This policy explains what information we collect and how we handle
+          it. We collect as little as possible, and your images never leave
+          your device.
+        </p>
+
+        <h2>Images you process</h2>
+        <p>
+          ImageSqueeze is a client-side tool. When you add images, they are
+          read by your browser and processed locally. They are not uploaded,
+          transmitted, stored or shared by us. Closing or refreshing the page
+          clears them from memory. Downloads are saved directly by your browser.
+        </p>
+
+        <h2>Information we collect</h2>
+        <p>
+          We do not require an account and do not ask for personal information.
+          We do not operate a backend that receives your files. If you choose to
+          email us, we receive your email address and message, and use them only
+          to respond to you.
+        </p>
+
+        <h2>Local storage</h2>
+        <p>
+          We store a single preference in your browser’s local storage: your
+          theme choice (“light” or “dark”). This stays on your device and is not
+          sent to us. You can clear it by clearing your browser’s site data.
+        </p>
+
+        <h2>Cookies and analytics</h2>
+        <p>
+          The Site does not use advertising cookies or third-party analytics.
+          If we add privacy-friendly analytics in the future, we will update
+          this policy and, where required, ask for consent.
+        </p>
+
+        <h2>Third-party links</h2>
+        <p>
+          The Site may link to third-party websites. We are not responsible for
+          their content or privacy practices. Please review their policies
+          before providing personal information.
+        </p>
+
+        <h2>Children’s privacy</h2>
+        <p>
+          The Site is not directed at children under 13, and we do not knowingly
+          collect personal information from children.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time. The effective date above
+          will change when we do. Continued use of the Site after an update
+          means you accept the revised policy.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy? Email
+          <a href="mailto:hello@imagesqueeze.com">hello@imagesqueeze.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

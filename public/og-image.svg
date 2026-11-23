@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <circle cx="1060" cy="110" r="190" fill="#10b981" opacity="0.08"/>
+  <circle cx="110" cy="570" r="210" fill="#14b8a6" opacity="0.06"/>
+
+  <rect x="80" y="72" width="88" height="88" rx="22" fill="#10b981"/>
+  <g fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M104 108v-10a4 4 0 0 1 4-4h10"/>
+    <path d="M144 94h10a4 4 0 0 1 4 4v10"/>
+    <path d="M158 130v10a4 4 0 0 1-4 4h-10"/>
+    <path d="M118 144h-10a4 4 0 0 1-4-4v-10"/>
+    <path d="M114 118h28"/>
+    <path d="m120 108-10 10 10 10"/>
+    <path d="m136 108 10 10-10 10"/>
+  </g>
+
+  <text x="196" y="132" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#ffffff">Image<tspan fill="#34d399">Squeeze</tspan></text>
+
+  <text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800" fill="#ffffff">Compress &amp; convert</text>
+  <text x="80" y="382" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800" fill="#34d399">images in your browser</text>
+  <text x="80" y="448" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#a7f3d0">Free · Private · No uploads · Batch processing</text>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">
+    <rect x="80" y="500" width="124" height="56" rx="28" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.5"/>
+    <text x="120" y="536" fill="#6ee7b7">PNG</text>
+    <rect x="220" y="500" width="124" height="56" rx="28" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.5"/>
+    <text x="260" y="536" fill="#6ee7b7">JPG</text>
+    <rect x="360" y="500" width="148" height="56" rx="28" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.5"/>
+    <text x="400" y="536" fill="#6ee7b7">WebP</text>
+  </g>
+
+  <text x="1120" y="580" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#94a3b8">imagesqueeze.com</text>
+</svg>
